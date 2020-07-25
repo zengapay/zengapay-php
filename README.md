@@ -62,6 +62,12 @@ The collections API enables you to deposit funds into your ZENGAPAY account by t
    $zengaPayAPI->setAPIKey("<YOUR_API_KEY>");
    $response = $zengaPayAPI->requestPayment("256770000000",1500,"Payment Reference","Payment Narration");
    
+   if($response->code === 202)
+   {
+        //Transaction was initiated successfully
+        echo $response->transactionReference;  // You will need this to follow up on the status of the transaction in the next step
+   }
+   // If you wish, you may print to view the full response. 
    print_r($response);
 ```
 
@@ -74,7 +80,14 @@ To retrieve a single collection object (check status of a collection request), p
   $zengaPayAPI->setAPIKey("<YOUR_API_KEY>");
   $response = $zengaPayAPI->getSingleCollection("<YOUR_TRANSACTION_REFERENCE>");
   
+    
+  if($response->data->transactionStatus === "SUCCEEDED")
+  {
+     //Transaction was successful and funds were deposited onto your ZENGAPAY Account. You can go a head to update your system. 
+  }
+  //If you wish, you may print_r to view the full response
   print_r($response);
+
 ```
 
 ### Getting All Collections
@@ -87,6 +100,7 @@ Use this method to retrieve a list of all collections on your account
   $response = $zengaPayAPI->getAllCollections("<YOUR_TRANSACTION_REFERENCE>");
   
   print_r($response);
+  
 ```
 
 ## Transfers
@@ -101,7 +115,14 @@ The Transfers API to enables you to send money to a mobile subscriber, withdraw 
   $zengaPayAPI->setAPIKey("<YOUR_API_KEY>");
   $response = $zengaPayAPI->sendTransfer("256770000000",1500,"Transfer Reference","Transfer Narration");
 
-  print_r($response);
+
+  if($response->code === 202)
+  {
+     //Transaction was initiated successfully
+     echo $response->transactionReference;  // You will need this to follow up on the status of the transaction in the next step
+  }
+  // If you wish, you may print to view the full response.    
+  print_r($response); 
 ```
 
 ### Getting a Single Transfer (Checking status of a transfer request)
@@ -113,6 +134,11 @@ To retrieve a single transfer object (check status of a transfer request), provi
   $zengaPayAPI->setAPIKey("<YOUR_API_KEY>");
   $response = $zengaPayAPI->getSingleTransfer("<YOUR_TRANSACTION_REFERENCE>");
   
+  if($response->data->transactionStatus === "SUCCEEDED")
+  {
+     //Transaction was successful and funds were deducted from your ZENGAPAY Account. You can go a head to update your system. 
+  }
+  //If you wish, you may print_r to view the full response  
   print_r($response);
 ```
 
@@ -131,11 +157,11 @@ Use this method to retrieve a list of all transfers on your account
 
 ## Related Webhooks
 
-The `collection.success` and `collection.failed` events are triggered whenever something happens to a collection that you have initiated. For example, if it is successfully delivered or if it fails.
+The `collection.success` and `collection.failed` events are triggered whenever something happens to a collection that you have initiated. For example, if it is successful or if it fails.
 
-The `transfer.success` and `transfer.failed` events are triggered whenever something happens to a transfer that you have initiated. For example, if it is successfully delivered or if it fails.
+The `transfer.success` and `transfer.failed` events are triggered whenever something happens to a transfer that you have initiated. For example, if it is successful or if it fails.
 
-You can configure a web link to receive notifications whenever this occurs. This will allow you to respond automatically whenever a collection is completed or whenever it fails.
+You can configure a web link to receive notifications whenever this occurs. This will allow you to respond automatically whenever a collection or transfer is completed or whenever it fails.
  
 See our [Webhooks API](https://developers.zengapay.com#webhooks-ipns) documentation for more information.
 
