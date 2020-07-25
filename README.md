@@ -108,7 +108,6 @@ To retrieve a single collection object (check status of a collection request), p
   }
   //If you wish, you may print_r to view the full response
   print_r($request);
-
 ```
 
 ### Getting All Collections
@@ -120,8 +119,7 @@ Use this method to retrieve a list of all collections on your account
   $zengaPayAPI->setAPIKey("<YOUR_API_KEY>");
   $request = $zengaPayAPI->getAllCollections("<YOUR_TRANSACTION_REFERENCE>");
   
-  print_r($request);
-  
+  print_r($request); 
 ```
 
 ## Transfers
