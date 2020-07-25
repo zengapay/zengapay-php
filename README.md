@@ -30,7 +30,7 @@ https://api.zengapay.com/v1/
 
 ### Installing
 
-Copy the contents of the zengapay-php folder into one of the ```include_path``` directories specified in your PHP configuration.
+Copy the contents of the `zengapay-php` folder into one of the ```include_path``` directories specified in your PHP configuration.
 
 If you don't use git, click the 'zip' button at the top of the page in GitHub.
 
