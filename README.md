@@ -157,6 +157,6 @@ That's it! You should now be ready to use the ZENGAPAY PHP Library
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE) file for details
 
 

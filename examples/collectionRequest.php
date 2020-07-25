@@ -1,5 +1,5 @@
 <?php
-require_once "../lib/zengaPayAPI.php";
+require_once "../zengaPayAPI.php";
 
 $zengaPayAPI = new zengaPayAPI("api.zengapay.com");
 $zengaPayAPI->setAPIKey("<YOUR_API_KEY>");
