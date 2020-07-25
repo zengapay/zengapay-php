@@ -1,5 +1,7 @@
 # ZENGAPAY PHP Library
 
+ZENGAPAY is a Payments Gateway service that enables businesses to receive payments from their customers via mobile money, as well as make mobile money payments to any mobile money account holder or purchase Mobile Airtime or Mobile Data.
+
 This is the Official ZENGAPAY PHP Client Library
 
 ## Getting Started
