@@ -6,7 +6,7 @@ $zengaPayAPI = new zengaPayAPI("api.zengapay.com");
 $zengaPayAPI->setAPIKey("<YOUR_API_KEY>");
 $response = $zengaPayAPI->getSingleTransfer("<YOUR_TRANSACTION_REFERENCE>");
 
-if($response->data->transactionStatus === "SUCCEEDED")
+if($response->result->data->transactionStatus === "SUCCEEDED")
 {
     //Transaction was successful and funds were deducted from your ZENGAPAY Account. You can go a head to update your system.
 }

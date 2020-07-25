@@ -4,12 +4,12 @@ require_once "../zengaPayAPI.php";
 
 $zengaPayAPI = new zengaPayAPI("api.zengapay.com");
 $zengaPayAPI->setAPIKey("<YOUR_API_KEY>");
-$response = $zengaPayAPI->requestPayment("256770000000","1500","Your Payment Reference","Your Payment Narration");
+$request = $zengaPayAPI->requestPayment("256770000000","1500","Your Payment Reference","Your Payment Narration");
 
-if($response->code === 202)
+if($request->result->code === 202)
 {
     //Transaction was initiated successfully
-    echo $response->transactionReference;  // You will need this to follow up on the status of the transaction in the next step
+    echo $request->result->transactionReference;  // You will need this to follow up on the status of the transaction in the next step
 }
 // If you wish, you may print to view the full response.
-print_r($response);
+print_r($request);
