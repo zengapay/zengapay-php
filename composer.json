@@ -1,0 +1,22 @@
+{
+  "name": "zengapay/zengapay-php",
+  "type": "library",
+  "description": "A PHP Library to interact with the ZENGAPAY API.",
+  "keywords": ["zengapay", "mobile money", "composer", "package"],
+  "license": "MIT",
+  "version": "1.1",
+  "authors": [
+    {
+      "name": "Denis Ojok",
+      "email": "denis@zengapay.com"
+    }
+  ],
+  "require": {
+    "php": "^5.3.3 || ^7.0"
+  },
+  "autoload": {
+    "classmap": [
+      "zengaPayAPI.php"
+    ]
+  }
+}
