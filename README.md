@@ -117,7 +117,7 @@ Use this method to retrieve a list of all collections on your account
 ```php
   $zengaPayAPI = new zengaPayAPI("api.zengapay.com");
   $zengaPayAPI->setAPIKey("<YOUR_API_KEY>");
-  $request = $zengaPayAPI->getAllCollections("<YOUR_TRANSACTION_REFERENCE>");
+  $request = $zengaPayAPI->getAllCollections();
   
   print_r($request); 
 ```
@@ -168,7 +168,7 @@ Use this method to retrieve a list of all transfers on your account
 ```php
   $zengaPayAPI = new zengaPayAPI("api.zengapay.com");
   $zengaPayAPI->setAPIKey("<YOUR_API_KEY>");
-  $transfers = $zengaPayAPI->getAllTransfers("<YOUR_TRANSACTION_REFERENCE>");
+  $transfers = $zengaPayAPI->getAllTransfers();
   
   print_r($transfers);
 ```
