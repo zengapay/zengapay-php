@@ -30,17 +30,38 @@ https://api.zengapay.com/v1/
 
 ### Installing
 
-Copy the contents of the `zengapay-php` folder into one of the ```include_path``` directories specified in your PHP configuration.
+The ZENGAPAY PHP Library is available via [Composer/Packagist](https://packagist.org/packages/zengapay/zengapay-php). So just add this line to your ```composer.json``` file
 
-If you don't use git, click the 'zip' button at the top of the page in GitHub.
+```json
+{
+  "require": {
+    "zengapay/zengapay-php": "*"
+  }
+}
+```
+or
 
-### Minimal Installation
+```
+composer require zengapay/zengapay-php
+```
 
-To use the library, download the latest release and uncompress it in a location that's on your project's include path.
+Then inside your PHP script, add the line
 
-Once that's done, you can include the library in your scripts as follows:
+```
+require 'vendor/autoload.php';
+```
 
-You can then load the library by just ```require_once '/path/to/zengaPayAPI.php';``` and everything should work.
+### Manual Installation
+
+Alternatively, download the contents of the `zengapay-php folder` and uncompress it in a location that's on your project's include path.
+
+Once that's done, include the library in your scripts as follows:
+
+```
+require_once '/path/to/zengaPayAPI.php';
+``` 
+
+Depending on your preferred environment, you can Instantiate the library as follows:
 
 ```
 $zengaPayAPI = new zengaPayAPI("api.sandbox.zengapay.com"); // For Production
@@ -170,6 +191,8 @@ You'll find plenty more to play with in the [examples](https://github.com/zengap
 That's it! You should now be ready to use the ZENGAPAY PHP Library
 
 ## Developer Documentation
+
+Checkout the official ZENGAPAY API documentation.
 
 [https://developers.zengapay.com](https://developers.zengapay.com)
 
