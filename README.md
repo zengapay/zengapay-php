@@ -64,11 +64,11 @@ require_once '/path/to/zengaPayAPI.php';
 Depending on your preferred environment, you can Instantiate the library as follows:
 
 ```
-$zengaPayAPI = new zengaPayAPI("api.sandbox.zengapay.com"); // For Production
+$zengaPayAPI = new zengaPayAPI("api.sandbox.zengapay.com"); // For Sandbox
 ```
 
 ```
-$zengaPayAPI = new zengaPayAPI("api.zengapay.com"); // For Sandbox
+$zengaPayAPI = new zengaPayAPI("api.zengapay.com"); // For Production
 ```
 ## Collections
 
