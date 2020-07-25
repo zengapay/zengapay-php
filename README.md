@@ -151,7 +151,7 @@ That's it! You should now be ready to use the ZENGAPAY PHP Library
 
 ## Authors
 
-* **Denis Mariano** - *Initial work* - [ZENGAPAY LIMITED](https://github.com/zengapay)
+* **Denis Ojok** - *Initial work* - [ZENGAPAY LIMITED](https://github.com/zengapay)
 
 ## License
 
