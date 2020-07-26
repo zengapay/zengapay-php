@@ -183,7 +183,7 @@ class zengaPayAPI
     }
 
     /**
-     * Retrieve list of headers needed for request
+     * Retrieve and set a list of headers needed for request
      *
      * @return array
      */
