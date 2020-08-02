@@ -76,12 +76,12 @@ ZENGAPAY uses the term Collections to refer to money that you receive (or collec
 
 ### Sample Payment Request (Collection)
 
-The **Collections API** enables you to request funds from your customer(s) or any mobile money account holder and deposit the funds into your ZENGAPAY account .
+The **requestPayment** method enables you to request funds from your customer(s) or any mobile money account holder and deposit the funds into your ZENGAPAY account.
 
 ```php
    $zengaPayAPI = new zengaPayAPI("api.zengapay.com");
    $zengaPayAPI->setAPIKey("<YOUR_API_KEY>");
-   $request = $zengaPayAPI->requestPayment("256770000000",1500,"Payment Reference","Payment Narration");
+   $request = $zengaPayAPI->requestPayment("256750000000",1500,"Your Payment Reference","Your Payment Narration");
    
    if($request->result->code === 202)
    {
@@ -128,11 +128,11 @@ ZENGAPAY uses the term Transfers to refer to money that you send to a mobile sub
 
 ### Sample Transfer Request (Payout)
 
-The **Transfers API** enables you to send money to a mobile subscriber or withdraw your funds (ZENGAPAY account balance) to Mobile Money.
+The **sendTransfer** method enables you to send money to a any mobile money account holder or withdraw your funds (ZENGAPAY account balance) to your own Mobile Money account.
 ```php
   $zengaPayAPI = new zengaPayAPI("api.zengapay.com");
   $zengaPayAPI->setAPIKey("<YOUR_API_KEY>");
-  $transfer = $zengaPayAPI->sendTransfer("256770000000",1500,"Transfer Reference","Transfer Narration");
+  $transfer = $zengaPayAPI->sendTransfer("256750000000",1500,"Your Transfer Reference","Your Transfer Narration");
 
 
   if($transfer->result->code === 202)
@@ -173,6 +173,29 @@ Use this method to retrieve a list of all transfers on your account
   print_r($transfers);
 ```
 
+## Account Balance
+
+Use the **accountGetBalance** method to get your current ZENGAPAY account balance.
+
+```php
+  $zengaPayAPI = new zengaPayAPI("api.zengapay.com");
+  $zengaPayAPI->setAPIKey("<YOUR_API_KEY>");
+  $statement = $zengaPayAPI->accountGetBalance();
+  
+  print_r($statement);
+```
+
+## Account Statement
+
+Use the **accountGetStatement** method to retrieve a list of all transactions performed on your account (account statement).
+
+```php
+  $zengaPayAPI = new zengaPayAPI("api.zengapay.com");
+  $zengaPayAPI->setAPIKey("<YOUR_API_KEY>");
+  $statement = $zengaPayAPI->accountGetStatement();
+  
+  print_r($statement);
+```
 
 ## Related Webhooks
 
