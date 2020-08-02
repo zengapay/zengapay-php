@@ -47,7 +47,7 @@ composer require zengapay/zengapay-php
 
 Then inside your PHP script, add the line
 
-```
+```php
 require 'vendor/autoload.php';
 ```
 
@@ -57,17 +57,17 @@ Alternatively, download the contents of the `zengapay-php folder` and uncompress
 
 Once that's done, include the library in your scripts as follows:
 
-```
+```php
 require_once '/path/to/zengaPayAPI.php';
 ``` 
 
 Depending on your preferred environment, you can Instantiate the library as follows:
 
-```
+```php
 $zengaPayAPI = new zengaPayAPI("api.sandbox.zengapay.com"); // For Sandbox
 ```
 
-```
+```php
 $zengaPayAPI = new zengaPayAPI("api.zengapay.com"); // For Production
 ```
 ## Collections
@@ -187,6 +187,7 @@ See our [Webhooks API](https://developers.zengapay.com#webhooks-ipns) documentat
 You'll find plenty more to play with in the [examples](https://github.com/zengapay/zengapay-php) folder.
 
 That's it! You should now be ready to use the ZENGAPAY PHP Library
+
 
 ## Developer Documentation
 
