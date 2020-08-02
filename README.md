@@ -180,9 +180,9 @@ Use the **accountGetBalance** method to get your current ZENGAPAY account balanc
 ```php
   $zengaPayAPI = new zengaPayAPI("api.zengapay.com");
   $zengaPayAPI->setAPIKey("<YOUR_API_KEY>");
-  $statement = $zengaPayAPI->accountGetBalance();
+  $balance = $zengaPayAPI->accountGetBalance();
   
-  print_r($statement);
+  print_r($balance);
 ```
 
 ## Account Statement
