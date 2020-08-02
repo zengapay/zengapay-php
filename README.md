@@ -76,7 +76,7 @@ ZENGAPAY uses the term Collections to refer to money that you receive (or collec
 
 ### Sample Payment Request (Collection)
 
-The collections API enables you to deposit funds into your ZENGAPAY account by transferring the said funds from a mobile money account holder.
+The **Collections API** enables you to request funds from your customer(s) or any mobile money account holder and deposit the funds into your ZENGAPAY account .
 
 ```php
    $zengaPayAPI = new zengaPayAPI("api.zengapay.com");
@@ -126,9 +126,9 @@ Use this method to retrieve a list of all collections on your account
 
 ZENGAPAY uses the term Transfers to refer to money that you send to a mobile subscriber. This differentiates money you send to mobile subscribers (aka Transfers) from money you receive from mobile subscribers (aka Collections).
 
-### Sample Payout Request (Transfer)
+### Sample Transfer Request (Payout)
 
-The Transfers API to enables you to send money to a mobile subscriber, withdraw your funds to Mobile Money.
+The **Transfers API** enables you to send money to a mobile subscriber or withdraw your funds (ZENGAPAY account balance) to Mobile Money.
 ```php
   $zengaPayAPI = new zengaPayAPI("api.zengapay.com");
   $zengaPayAPI->setAPIKey("<YOUR_API_KEY>");
