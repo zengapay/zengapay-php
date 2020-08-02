@@ -76,7 +76,7 @@ ZENGAPAY uses the term Collections to refer to money that you receive (or collec
 
 ### Sample Payment Request (Collection)
 
-The **requestPayment** method enables you to request funds from your customer(s) or any mobile money account holder and deposit the funds into your ZENGAPAY account.
+The **requestPayment** method enables you to request/collect funds from your customer(s) or any mobile money account holder and deposit the funds into your ZENGAPAY account.
 
 ```php
    $zengaPayAPI = new zengaPayAPI("api.zengapay.com");
