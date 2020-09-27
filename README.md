@@ -42,7 +42,7 @@ The ZENGAPAY PHP Library is available via [Composer/Packagist](https://packagist
 or
 
 ```
-composer require zengapay/zengapay-php
+composer require zengapay/zengapay-php:dev-master
 ```
 
 Then inside your PHP script, add the line
