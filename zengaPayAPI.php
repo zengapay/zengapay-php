@@ -213,7 +213,7 @@ class zengaPayAPI
         );
         if ($this->_APIKey)
         {
-            $headers[] = "Authorization: Token {$this->_APIKey}";
+            $headers[] = "Authorization: Bearer {$this->_APIKey}";
         }
         return $headers;
     }
