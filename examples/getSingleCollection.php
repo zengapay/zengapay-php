@@ -2,7 +2,7 @@
 
 require_once "../zengaPayAPI.php";
 
-$zengaPayAPI = new zengaPayAPI("api.zengapay.com");
+$zengaPayAPI = new zengaPayAPI();
 $zengaPayAPI->setAPIKey("<YOUR_API_KEY>");
 $request = $zengaPayAPI->getSingleCollection("<YOUR_TRANSACTION_REFERENCE>");
 

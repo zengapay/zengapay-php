@@ -4,7 +4,8 @@ require_once "../zengaPayAPI.php";
 
 $zengaPayAPI = new zengaPayAPI();
 $zengaPayAPI->setAPIKey("<YOUR_API_KEY>");
-$response = $zengaPayAPI->accountGetBalance();
 
-print_r($response->result);
+$request = $zengaPayAPI->getAllContacts();
 
+// If you wish, you may print to view the full response.
+print_r($request);

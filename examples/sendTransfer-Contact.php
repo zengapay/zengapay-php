@@ -5,12 +5,13 @@ require_once "../zengaPayAPI.php";
 $zengaPayAPI = new zengaPayAPI();
 $zengaPayAPI->setAPIKey("<YOUR_API_KEY>");
 
-$zengaPayAPI->msisdn = "256770000000";
-$zengaPayAPI->amount = 15000;
-$zengaPayAPI->external_reference = "Your Transfer Reference"; // eg #3001
+$zengaPayAPI->use_contact = true;
+$zengaPayAPI->contact_id = "9aa3bc79-583e-4eb5-93bf-0e894b07aec9";
+$zengaPayAPI->amount = 1500;
+$zengaPayAPI->external_reference = "Your Transfer Reference"; // #3001
 $zengaPayAPI->narration = "Your Transfer Narration"; //eg Refund for Order #3001
 
-$request = $zengaPayAPI->requestPayment();
+$request = $zengaPayAPI->sendTransfer();
 
 if($request->result->code === 202)
 {

@@ -20,12 +20,35 @@
 //////////////////////////////////////////////////////////////
 class zengaPayAPI
 {
+    public $msisdn;
+    public $amount;
+    public $external_reference;
+    public $narration;
+    public $use_contact = false;
+    public $contact_id;
+
+    public $transactionReference;
+
+    public $start;
+    public $end;
+    public $status;
+    public $currency_code;
+    public $per_page;
+    public $designation;
+
+    public $contact_first_name;
+    public $contact_last_name;
+    public $contact_phone;
+    public $contact_type;
+    public $contact_uuid;
+
     private $_host;
     private $_protocol;
     private $_APIKey;
     private $_APIVersion;
     private $_resource;
     private $_request;
+    private $_params;
 
     /**
      * zengaPayPI constructor.
@@ -34,7 +57,7 @@ class zengaPayAPI
      * @param string $protocol
      */
     
-    public function __construct($host, $APIVersion ="/v1",$protocol = 'https')
+    public function __construct($host="api.zengapay.com", $APIVersion ="/v1",$protocol = 'https')
     {
         $this->_host = $host;
         $this->_APIVersion = $APIVersion;
@@ -47,21 +70,17 @@ class zengaPayAPI
      * your request to transfer funds out of their account and requests them to authorize the
      * request to complete the transaction.
      * This request is not supported by all mobile money operator networks
-     * @param string $msisdn: The mobile money phone number in the format 256772123456
-     * @param double $amount: The amount of money to be deposited into your account (floats are supported)
-     * @param string $external_reference: Something which yourself and the beneficiary agree upon e.g. an invoice number
-     * @param string $narration: The reason for the mobile money user to deposit funds
      * @return array
      */
     
-    public function requestPayment($msisdn,$amount,$external_reference,$narration)
+    public function requestPayment()
     {
         $this->_resource = "/collections";
         $this->_request = array(
-            "msisdn"=>$msisdn,
-            "amount"=>$this->unformat($amount),
-            "external_reference"=>$external_reference,
-            "narration"=>$narration
+            "msisdn"=>$this->msisdn,
+            "amount"=>$this->unformat($this->amount),
+            "external_reference"=>$this->external_reference,
+            "narration"=>$this->narration
         );
         return $this->sendAPIRequest('POST',$this->_resource,json_encode($this->_request));
     }
@@ -72,9 +91,9 @@ class zengaPayAPI
      * @return object
      */
     
-    public function getSingleCollection($transactionReference)
+    public function getSingleCollection()
     {
-        return $this->sendAPIRequest('GET',"/collections/{$transactionReference}");
+        return $this->sendAPIRequest('GET',"/collections/{$this->transactionReference}");
     }
     /**
      * Fetch all collections that were earlier submitted for processing.
@@ -83,7 +102,15 @@ class zengaPayAPI
     
     public function getAllCollections()
     {
-        return $this->sendAPIRequest('GET',"/collections");
+        $this->_params = array(
+            "per_page"=> isset($this->per_page) ? $this->per_page : '',
+            "status"=> isset($this->status) ? $this->status : '',
+            "start"=> isset($this->start) ? $this->start : date('2020-01-01 00:00:00'),
+            "end"=> isset($this->end) ? $this->end : date('Y-m-d 23:59:59'),
+            "currency_code"=> isset($this->currency_code) ? $this->currency_code : '',
+            "designation"=> isset($this->designation) ? $this->designation : ''
+        );
+        return $this->sendAPIRequest('GET',"/collections",json_encode(array_merge($this->_params)));
     }
     /**
      * Transfer funds from your ZENGAPAY Account to a mobile money user
@@ -92,21 +119,19 @@ class zengaPayAPI
      * withdrawal of funds from your account.
      * This request is not supported by all mobile money operator networks
      * This request requires permission that is granted by the specific IP Address(es) whitelisted in your ZENGAPAY Dashboard
-     * @param string $msisdn the mobile money phone number in the format 256772123456
-     * @param double $amount: The amount of money to withdraw from your account (floats are supported)
-     * @param string $external_reference: Something which yourself and the beneficiary agree upon e.g. an invoice number
-     * @param string $narration: The reason for the mobile money user to deposit funds
      * @return array
      */
     
-    public function sendTransfer($msisdn,$amount,$external_reference,$narration)
+    public function sendTransfer()
     {
         $this->_resource = "/transfers";
         $this->_request = array(
-            "msisdn"=>$msisdn,
-            "amount"=>$this->unformat($amount),
-            "external_reference"=>$external_reference,
-            "narration"=>$narration
+            "msisdn"=> isset($this->msisdn) ? $this->msisdn : '',
+            "amount"=> $this->unformat($this->amount),
+            "external_reference"=> $this->external_reference,
+            "narration"=> $this->narration,
+            "contact_id"=> isset($this->contact_id) ? $this->contact_id : '',
+            "use_contact"=> isset($this->use_contact) ? (boolean) $this->use_contact : (boolean) 0
         );
         return $this->sendAPIRequest('POST',$this->_resource,json_encode($this->_request));
     }
@@ -117,29 +142,84 @@ class zengaPayAPI
      * @return object
      */
     
-    public function getSingleTransfer($transactionReference)
+    public function getSingleTransfer()
     {
-        return $this->sendAPIRequest('GET',"/transfers/{$transactionReference}");
+        return $this->sendAPIRequest('GET',"/transfers/{$this->transactionReference}");
     }
     /**
      * Fetch all transfers that were earlier submitted for processing.
      * @return object
      */
-    
     public function getAllTransfers()
     {
-        return $this->sendAPIRequest('GET',"/transfers");
+        $this->_params = array(
+            "per_page"=> isset($this->per_page) ? $this->per_page : '',
+            "status"=> isset($this->status) ? $this->status : '',
+            "start"=> isset($this->start) ? $this->start : date('2020-01-01 00:00:00'),
+            "end"=> isset($this->end) ? $this->end : date('Y-m-d 23:59:59'),
+            "currency_code"=> isset($this->currency_code) ? $this->currency_code : '',
+            "designation"=> isset($this->designation) ? $this->designation : ''
+        );
+        return $this->sendAPIRequest('GET',"/transfers",json_encode($this->_params));
     }
+    /**
+     * Transfer funds from your ZENGAPAY Account to a mobile money user
+     * This transaction transfers funds from your ZENGAPAY Account to a mobile money user.
+     * Please handle this request with care because if compromised, it can lead to
+     * withdrawal of funds from your account.
+     * This request is not supported by all mobile money operator networks
+     * This request requires permission that is granted by the specific IP Address(es) whitelisted in your ZENGAPAY Dashboard
+     * @return array
+     */
+    public function registerContact()
+    {
+        $this->_resource = "/contacts";
+        $this->_request = array(
+            "first_name"=> $this->contact_first_name,
+            "last_name"=> isset($this->contact_last_name) ? $this->contact_last_name : '',
+            "phone"=> $this->contact_phone,
+            "type"=> $this->contact_type
+        );
+        return $this->sendAPIRequest('POST',$this->_resource,json_encode($this->_request));
+    }
+    /**
+     * Get Contact
+     * Returns objects contains single contact
+     * @return object
+     */
+    public function getContact()
+    {
+        return $this->sendAPIRequest('GET',"/contacts/{$this->contact_uuid}");
+    }
+    /**
+     * Get All Contacts
+     * Returns objects contains an array of your account contacts
+     * @return object
+     */
+    public function getAllContacts()
+    {
+        return $this->sendAPIRequest('GET','/contacts');
+    }
+    /**
+     * Get Info Of your ZENGAPAY Account
+     * Returns objects contains an array of account data
+     * @return object
+     */
+    public function accountInfo()
+    {
+        return $this->sendAPIRequest('GET',"/account");
+    }
+
     /**
      * Get the current balance of your ZENGAPAY Account
      * Returns objects contains an array of balances (including airtime)
      * @return object
      */
-    
     public function accountGetBalance()
     {
         return $this->sendAPIRequest('GET',"/account/balance");
     }
+
     /**
      * Return an account statement object of transactions which were carried out on your account for a certain period of time
      * @param string $start format YYYY-MM-DD HH:MM:SS
@@ -160,20 +240,27 @@ class zengaPayAPI
      * Options
      * * "TRANSACTION"
      * * "CHARGES"
-     * * "ANY"
+     * * "LIQUIDATION"
      * @return object
      */
-    
-    public function accountGetStatement($start=NULL, $end=NULL, $status=NULL, $currency_code=NULL, $limit=NULL, $designation='ANY')
+    public function accountGetStatement()
     {
-        return $this->sendAPIRequest('GET',"/account/statement");
+        $this->_params = array(
+            "per_page"=> isset($this->per_page) ? $this->per_page : '',
+            "status"=> isset($this->status) ? $this->status : '',
+            "start"=> isset($this->start) ? $this->start : date('2020-01-01 00:00:00'),
+            "end"=> isset($this->end) ? $this->end : date('Y-m-d 23:59:59'),
+            "currency_code"=> isset($this->currency_code) ? $this->currency_code : '',
+            "designation"=> isset($this->designation) ? $this->designation : ''
+        );
+        return $this->sendAPIRequest('GET',"/account/statement",json_encode($this->_params));
     }
+
     /**
      * Define API key for authentication
      *
      * @param string $APIKey
      */
-    
     public function setAPIKey($APIKey)
     {
         $this->_APIKey = $APIKey;
@@ -187,7 +274,6 @@ class zengaPayAPI
      * @param string $thousands_sep
      * @return int or float
      */
-    
     private function unformat($number, $force_number = true, $dec_point = '.', $thousands_sep = ',') {
         if ($force_number) {
             $number = preg_replace('/^[^\d]+/', '', $number);
@@ -205,7 +291,6 @@ class zengaPayAPI
      *
      * @return array
      */
-
     private function _setHeaders()
     {
         $headers = array(
@@ -226,7 +311,6 @@ class zengaPayAPI
      * @param string $body
      * @return object
      */
-    
     protected function sendAPIRequest($method,$endPoint,$body=NULL)
     {
         $ch = curl_init( );
@@ -239,7 +323,7 @@ class zengaPayAPI
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
         curl_setopt($ch, CURLOPT_VERBOSE, false);
         curl_setopt($ch, CURLOPT_TIMEOUT, 60);
-        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30 );
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 60 );
         $output = new stdClass();
         $output->result = json_decode(curl_exec($ch));
         $curl_info = curl_getinfo($ch);

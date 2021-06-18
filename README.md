@@ -70,6 +70,9 @@ $zengaPayAPI = new zengaPayAPI("api.sandbox.zengapay.com"); // For Sandbox
 ```php
 $zengaPayAPI = new zengaPayAPI("api.zengapay.com"); // For Production
 ```
+
+**Please Note:** If you don't explicitly specify the environment, by default the library shall use the production environment
+
 ## Collections
 
 ZENGAPAY uses the term Collections to refer to money that you receive (or collect) from a mobile subscriber. This differentiates money you receive (Collections) from money you send to mobile subscribers (Transfers).
@@ -84,16 +87,21 @@ require_once '/path/to/zengaPayAPI.php';
    
 //Instantiate the library
 $zengaPayAPI = new zengaPayAPI("api.zengapay.com");
-   
 $zengaPayAPI->setAPIKey("<YOUR_API_KEY>"); // Obtain this from your ZENGAPAY Dashboard (Settings -> Developer Settings)
-$request = $zengaPayAPI->requestPayment("256750000000",1500,"Your Payment Reference","Your Payment Narration");
-   
-if($request->result->code === 202)
+
+$zengaPayAPI->msisdn = "256770000000";
+$zengaPayAPI->amount = 15000;
+$zengaPayAPI->external_reference = "Your Transfer Reference"; // eg #3001
+$zengaPayAPI->narration = "Your Transfer Narration"; //eg Refund for Order #3001
+
+$request = $zengaPayAPI->requestPayment();
+
+if(isset($request->result->code) && ($request->result->code === 202))
 {
-   //Transaction was initiated successfully
-   echo $request->result->transactionReference;  // You will need this to follow up on the status of the transaction in the next step
+    //Transaction was initiated successfully
+    echo $request->result->transactionReference;  // You will need this to follow up on the status of the transaction in the next step
 }
-// If you wish, you may print_r to view the full response. 
+// If you wish, you may print to view the full response.
 print_r($request);
 ```
 
@@ -106,11 +114,13 @@ To retrieve a single collection object (check status of a collection request), p
 require_once '/path/to/zengaPayAPI.php';
    
 //Instantiate the library
-$zengaPayAPI = new zengaPayAPI("api.zengapay.com");
-   
+$zengaPayAPI = new zengaPayAPI("api.zengapay.com");   
 $zengaPayAPI->setAPIKey("<YOUR_API_KEY>");  // Obtain this from your ZENGAPAY Dashboard (Settings -> Developer Settings)
-$request = $zengaPayAPI->getSingleCollection("<YOUR_TRANSACTION_REFERENCE>");
-      
+
+$zengaPayAPI->transactionReference = "<YOUR_TRANSACTION_REFERENCE>"; 
+
+$request = $zengaPayAPI->getSingleCollection(); 
+    
 if($request->result->data->transactionStatus === "SUCCEEDED")
 {
     //Transaction was successful and funds were deposited onto your ZENGAPAY Account. You can go a head to update your system. 
@@ -140,29 +150,59 @@ print_r($request);
 
 ZENGAPAY uses the term Transfers to refer to money that you send to a mobile subscriber. This differentiates money you send to mobile subscribers (aka Transfers) from money you receive from mobile subscribers (aka Collections).
 
-### Sample Transfer Request (Payout)
+### Sample Transfer Request (Payout/Withdraw)
 
 The **sendTransfer** method enables you to send money to a any mobile money account holder or withdraw your funds (ZENGAPAY account balance) to your own Mobile Money account.
+
+#### Example 1: Sending to Non Contact
 ```php
 //require ZENGAPAY PHP Library
 require_once '/path/to/zengaPayAPI.php';
    
 //Instantiate the library
 $zengaPayAPI = new zengaPayAPI("api.zengapay.com");
-   
 $zengaPayAPI->setAPIKey("<YOUR_API_KEY>"); // Obtain this from your ZENGAPAY Dashboard (Settings -> Developer Settings)
-$transfer = $zengaPayAPI->sendTransfer("256750000000",1500,"Your Transfer Reference","Your Transfer Narration");
 
+$zengaPayAPI->msisdn = "256770000000";
+$zengaPayAPI->amount = 1500;
+$zengaPayAPI->external_reference = "Your Transfer Reference"; // #3001
+$zengaPayAPI->narration = "Your Transfer Narration"; //eg Refund for Order #3001
 
-if($transfer->result->code === 202)
+$request = $zengaPayAPI->sendTransfer();
+
+if(isset($request->result->code) && ($request->result->code === 202))
 {
-     //Transaction was initiated successfully
-     echo $response->transactionReference;  // You will need this to follow up on the status of the transaction in the next step
+    //Transaction was initiated successfully
+    echo $request->result->transactionReference;  // You will need this to follow up on the status of the transaction in the next step
 }
-//If you wish, you may print_r to view the full response.    
-print_r($transfer); 
+// If you wish, you may print to view the full response. 
+print_r($request);
 ```
+#### Example 2: Sending to a Contact
+```php
+//require ZENGAPAY PHP Library
+require_once '/path/to/zengaPayAPI.php';
+   
+//Instantiate the library
+$zengaPayAPI = new zengaPayAPI("api.zengapay.com");
+$zengaPayAPI->setAPIKey("<YOUR_API_KEY>"); // Obtain this from your ZENGAPAY Dashboard (Settings -> Developer Settings)
 
+$zengaPayAPI->use_contact = true;
+$zengaPayAPI->contact_id = "<YOUR_CONTACT_UUID>"; // A UUID eg 9aa3bc79-583e-4eb5-93bf-0e894b07aec9, Look at the API for More
+$zengaPayAPI->amount = 1500;
+$zengaPayAPI->external_reference = "Your Transfer Reference"; // #3001
+$zengaPayAPI->narration = "Your Transfer Narration"; //eg Refund for Order #3001
+
+$request = $zengaPayAPI->sendTransfer();
+
+if(isset($request->result->code) && ($request->result->code === 202))
+{
+    //Transaction was initiated successfully
+    echo $request->result->transactionReference;  // You will need this to follow up on the status of the transaction in the next step
+}
+// If you wish, you may print to view the full response.
+print_r($request);
+```
 ### Getting a Single Transfer (Checking status of a transfer request)
 
 To retrieve a single transfer object (check status of a transfer request), provide the transactionReference and a transfer object will be returned.
@@ -194,15 +234,71 @@ Use this method to retrieve a list of all transfers on your account
 require_once '/path/to/zengaPayAPI.php';
    
 //Instantiate the library
-$zengaPayAPI = new zengaPayAPI("api.zengapay.com");
-   
+$zengaPayAPI = new zengaPayAPI("api.zengapay.com");   
 $zengaPayAPI->setAPIKey("<YOUR_API_KEY>"); // Obtain this from your ZENGAPAY Dashboard (Settings -> Developer Settings)
+
 $transfers = $zengaPayAPI->getAllTransfers();
   
 print_r($transfers);
 ```
+## Contacts
+Contacts represent people whom you can transfer funds to, or collect funds from. The contacts api method allows you to add, retrieve, list and update contacts in your account.
 
-## Account Balance
+### Adding a contact
+```php
+//require ZENGAPAY PHP Library
+require_once '/path/to/zengaPayAPI.php';
+   
+//Instantiate the library
+$zengaPayAPI = new zengaPayAPI("api.zengapay.com");  
+$zengaPayAPI->setAPIKey("<YOUR_API_KEY>"); // Obtain this from your ZENGAPAY Dashboard (Settings -> Developer Settings)
+
+$zengaPayAPI->contact_first_name = "Denis";
+//$zengaPayAPI->contact_last_name = "Ojok"; // Optional
+$zengaPayAPI->contact_phone = "256770000000"; // eg #256770000000
+$zengaPayAPI->contact_type = "Beneficiary"; //eg Beneficiary,Employee,Vendor,Other
+
+$request = $zengaPayAPI->registerContact();
+
+if(isset($request->result->code) && ($request->result->code === 201))
+{
+    //Contact was registered successfully
+    echo $request->result->uuid;
+}
+// If you wish, you may print to view the full response.
+print_r($request);
+```
+### Getting all contacts
+```php
+//require ZENGAPAY PHP Library
+require_once '/path/to/zengaPayAPI.php';
+   
+//Instantiate the library
+$zengaPayAPI = new zengaPayAPI("api.zengapay.com");  
+$zengaPayAPI->setAPIKey("<YOUR_API_KEY>"); // Obtain this from your ZENGAPAY Dashboard (Settings -> Developer Settings)
+
+$contacts = $zengaPayAPI->getAllContacts();
+// If you wish, you may print to view the full response.
+print_r($contacts);
+```
+### Getting a single Contact
+```php
+//require ZENGAPAY PHP Library
+require_once '/path/to/zengaPayAPI.php';
+   
+//Instantiate the library
+$zengaPayAPI = new zengaPayAPI("api.zengapay.com");  
+$zengaPayAPI->setAPIKey("<YOUR_API_KEY>"); // Obtain this from your ZENGAPAY Dashboard (Settings -> Developer Settings)
+
+$zengaPayAPI->contact_uuid = "<YOUR_CONTACT_UUID>"; // eg 20a9e36e-075f-5b24-9f87-fa050c9be68f
+$contact = $zengaPayAPI->getContact();
+
+// If you wish, you may print to view the full response.
+print_r($contact);
+```
+## Account
+
+### Account Balance
 
 Use the **accountGetBalance** method to get your current ZENGAPAY account balance.
 
@@ -219,7 +315,7 @@ $balance = $zengaPayAPI->accountGetBalance();
 print_r($balance);
 ```
 
-## Account Statement
+### Account Statement
 
 Use the **accountGetStatement** method to retrieve a list of all transactions performed on your account (account statement).
 
