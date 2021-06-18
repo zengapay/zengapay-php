@@ -141,6 +141,13 @@ require_once '/path/to/zengaPayAPI.php';
 $zengaPayAPI = new zengaPayAPI();
    
 $zengaPayAPI->setAPIKey("<YOUR_API_KEY>"); // Obtain this from your ZENGAPAY Dashboard (Settings -> Developer Settings)
+
+//$zengaPayAPI->status = ""; could be one of these:  FAILED,SUCCEEDED,PENDING
+//$zengaPayAPI->per_page = 50;
+//$zengaPayAPI->designation = ""; could be one of these : CHARGES,TRANSACTION
+//$zengaPayAPI->start = "YYYY-MM-DD HH:MM:SS";
+//$zengaPayAPI->end = "YYYY-MM-DD HH:MM:SS";
+
 $request = $zengaPayAPI->getAllCollections();
   
 print_r($request); 
@@ -237,6 +244,12 @@ require_once '/path/to/zengaPayAPI.php';
 $zengaPayAPI = new zengaPayAPI();   
 $zengaPayAPI->setAPIKey("<YOUR_API_KEY>"); // Obtain this from your ZENGAPAY Dashboard (Settings -> Developer Settings)
 
+//$zengaPayAPI->status = ""; could be one of these:  FAILED,SUCCEEDED,PENDING
+//$zengaPayAPI->per_page = 50;
+//$zengaPayAPI->designation = ""; could be one of these : CHARGES,TRANSACTION
+//$zengaPayAPI->start = "YYYY-MM-DD HH:MM:SS";
+//$zengaPayAPI->end = "YYYY-MM-DD HH:MM:SS";
+
 $transfers = $zengaPayAPI->getAllTransfers();
   
 print_r($transfers);
@@ -325,8 +338,15 @@ require_once '/path/to/zengaPayAPI.php';
    
 //Instantiate the library
 $zengaPayAPI = new zengaPayAPI();
-   
 $zengaPayAPI->setAPIKey("<YOUR_API_KEY>"); // Obtain this from your ZENGAPAY Dashboard (Settings -> Developer Settings)
+
+//$zengaPayAPI->status = ""; could be one of these:  FAILED,SUCCEEDED,PENDING
+//$zengaPayAPI->per_page = 50;
+//$zengaPayAPI->designation = ""; could be one of these : CHARGES,TRANSACTION,LIQUIDATION
+//$zengaPayAPI->start = "YYYY-MM-DD HH:MM:SS";
+//$zengaPayAPI->end = "YYYY-MM-DD HH:MM:SS";
+//$zengapayAPI->currency_code = "" could be one of these: UGX-MTNMM,UGX-ATLMM 
+
 $statement = $zengaPayAPI->accountGetStatement();
   
 print_r($statement);
