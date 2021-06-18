@@ -5,7 +5,7 @@ require_once "../zengaPayAPI.php";
 $zengaPayAPI = new zengaPayAPI();
 $zengaPayAPI->setAPIKey("<YOUR_API_KEY>");
 
-$zengaPayAPI->transactionReference = "b4a66137-c5da-5bfd-a1f9-8861111f257b";
+$zengaPayAPI->transactionReference = "b4a66137-c5da-5bfd-a1f9-8861111f257b"; // UUID
 $request = $zengaPayAPI->getSingleTransfer();
 
 if($request->result->data->transactionStatus === "SUCCEEDED")

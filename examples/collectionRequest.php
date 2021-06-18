@@ -6,7 +6,7 @@ $zengaPayAPI = new zengaPayAPI();
 $zengaPayAPI->setAPIKey("<YOUR_API_KEY>");
 
 $zengaPayAPI->msisdn = "256770000000";
-$zengaPayAPI->amount = 15000;
+$zengaPayAPI->amount = 15500;
 $zengaPayAPI->external_reference = "Your Transfer Reference"; // eg #3001
 $zengaPayAPI->narration = "Your Transfer Narration"; //eg Refund for Order #3001
 
