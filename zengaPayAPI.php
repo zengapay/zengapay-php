@@ -4,7 +4,7 @@
 // zengaPayAPI.php (API)
 //===========================================================
 // ZENGAPAY PAYMENT GATEWAY
-// Version : 1.0
+// Version: 1.0
 // Inspired by the DESIRE to be the BEST OF ALL
 // ----------------------------------------------------------
 // Initial work: Denis Ojok
@@ -69,7 +69,7 @@ class zengaPayAPI
      * notification on their mobile phone. The notification informs the mobile money user about
      * your request to transfer funds out of their account and requests them to authorize the
      * request to complete the transaction.
-     * This request is not supported by all mobile money operator networks
+     * All mobile money operator networks do not support this request
      * @return array
      */
     
@@ -85,7 +85,7 @@ class zengaPayAPI
         return $this->sendAPIRequest('POST',$this->_resource,json_encode($this->_request));
     }
     /**
-     * Check the status of a single transaction that was earlier submitted for processing.
+     * Check the status of a single transaction submitted for processing.
      * It can also be used to check on any other transaction on the system.
      * @param string $transactionReference: The reference to the transaction whose status you would like to follow up on. This is typically the transaction reference which came through as part of an earlier collection request response.
      * @return object
@@ -103,7 +103,7 @@ class zengaPayAPI
     public function getAllCollections()
     {
         $this->_params = array(
-            "per_page"=> isset($this->per_page) ? $this->per_page : '',
+            "per_page"=> isset($this->per_page) ? $this->per_page : 25,
             "status"=> isset($this->status) ? $this->status : '',
             "start"=> isset($this->start) ? $this->start : date('2020-01-01 00:00:00'),
             "end"=> isset($this->end) ? $this->end : date('Y-m-d 23:59:59'),
@@ -115,9 +115,9 @@ class zengaPayAPI
     /**
      * Transfer funds from your ZENGAPAY Account to a mobile money user
      * This transaction transfers funds from your ZENGAPAY Account to a mobile money user.
-     * Please handle this request with care because if compromised, it can lead to
-     * withdrawal of funds from your account.
-     * This request is not supported by all mobile money operator networks
+     * Please handle this request carefully because if compromised, it can lead to
+     * the withdrawal of funds from your account.
+     * All mobile money operator networks do not support this request
      * This request requires permission that is granted by the specific IP Address(es) whitelisted in your ZENGAPAY Dashboard
      * @return array
      */
@@ -136,7 +136,7 @@ class zengaPayAPI
         return $this->sendAPIRequest('POST',$this->_resource,json_encode($this->_request));
     }
     /**
-     * Check the status of a single transaction that was earlier submitted for processing.
+     * Check the status of a single transaction submitted for processing.
      * It can also be used to check on any other transaction on the system.
      * @param string $transactionReference: The reference to the transaction whose status you would like to follow up on. This is typically the transaction reference which came through as part of an earlier transfer request response.
      * @return object
@@ -153,7 +153,7 @@ class zengaPayAPI
     public function getAllTransfers()
     {
         $this->_params = array(
-            "per_page"=> isset($this->per_page) ? $this->per_page : '',
+            "per_page"=> isset($this->per_page) ? $this->per_page : 25,
             "status"=> isset($this->status) ? $this->status : '',
             "start"=> isset($this->start) ? $this->start : date('2020-01-01 00:00:00'),
             "end"=> isset($this->end) ? $this->end : date('Y-m-d 23:59:59'),
@@ -165,9 +165,9 @@ class zengaPayAPI
     /**
      * Transfer funds from your ZENGAPAY Account to a mobile money user
      * This transaction transfers funds from your ZENGAPAY Account to a mobile money user.
-     * Please handle this request with care because if compromised, it can lead to
-     * withdrawal of funds from your account.
-     * This request is not supported by all mobile money operator networks
+     * Please handle this request carefully because if compromised, it can lead to
+     * the withdrawal of funds from your account.
+     * All mobile money operator networks do not support this request
      * This request requires permission that is granted by the specific IP Address(es) whitelisted in your ZENGAPAY Dashboard
      * @return array
      */
@@ -184,7 +184,7 @@ class zengaPayAPI
     }
     /**
      * Get Contact
-     * Returns objects contains single contact
+     * Returns objects containing single contact
      * @return object
      */
     public function getContact()
@@ -193,7 +193,7 @@ class zengaPayAPI
     }
     /**
      * Get All Contacts
-     * Returns objects contains an array of your account contacts
+     * Returns objects containing an array of your account contacts
      * @return object
      */
     public function getAllContacts()
@@ -201,8 +201,8 @@ class zengaPayAPI
         return $this->sendAPIRequest('GET','/contacts');
     }
     /**
-     * Get Info Of your ZENGAPAY Account
-     * Returns objects contains an array of account data
+     * Get Info on your ZENGAPAY Account
+     * Returns objects containing an array of account data
      * @return object
      */
     public function accountInfo()
@@ -212,7 +212,7 @@ class zengaPayAPI
 
     /**
      * Get the current balance of your ZENGAPAY Account
-     * Returns objects contains an array of balances (including airtime)
+     * Returns objects containing an array of balances (including airtime)
      * @return object
      */
     public function accountGetBalance()
@@ -221,7 +221,7 @@ class zengaPayAPI
     }
 
     /**
-     * Return an account statement object of transactions which were carried out on your account for a certain period of time
+     * Return an account statement object of transactions that were carried out on your account for a certain period of time
      * @param string $start format YYYY-MM-DD HH:MM:SS
      * @param string $end  format YYYY-MM-DD HH:MM:SS
      * @param string $status
@@ -230,7 +230,7 @@ class zengaPayAPI
      * * "PENDING"
      * * "INDETERMINATE"
      * * "SUCCEEDED"
-     * * "FAILED,SUCCEEDED" (comma separated)
+     * * "FAILED, SUCCEEDED" (comma separated)
      * @param string $currency_code
      * Options
      * * "UGX-MTNMM" -> Uganda Shillings - MTN Mobile Money
@@ -246,7 +246,7 @@ class zengaPayAPI
     public function accountGetStatement()
     {
         $this->_params = array(
-            "per_page"=> isset($this->per_page) ? $this->per_page : '',
+            "per_page"=> isset($this->per_page) ? $this->per_page : 25,
             "status"=> isset($this->status) ? $this->status : '',
             "start"=> isset($this->start) ? $this->start : date('2020-01-01 00:00:00'),
             "end"=> isset($this->end) ? $this->end : date('Y-m-d 23:59:59'),
@@ -287,7 +287,7 @@ class zengaPayAPI
     }
 
     /**
-     * Retrieve and set a list of headers needed for request
+     * Retrieve and set a list of headers needed for the request
      *
      * @return array
      */
@@ -319,8 +319,8 @@ class zengaPayAPI
         $method == "POST" ? curl_setopt($ch, CURLOPT_POST, true) : curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
         isset($body) ? curl_setopt($ch, CURLOPT_POSTFIELDS, $body) :'';
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1 );
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($ch, CURLOPT_VERBOSE, false);
         curl_setopt($ch, CURLOPT_TIMEOUT, 60);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 60 );
